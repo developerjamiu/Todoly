@@ -1,7 +1,7 @@
 # todoly
 
-My fourth project at the Side Hustle Internship
+My fourth project at the Side Hustle Internship - A Todo App
 
-## Getting Started
+## Mockups
 
-This project is a starting point for a Flutter application.
+## Mobile
