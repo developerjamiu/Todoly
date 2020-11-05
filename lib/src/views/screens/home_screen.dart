@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:todoly/src/models/todo.dart';
 
 import '../../core/constants.dart';
+import '../../viewmodels/home_viewmodel.dart';
 import '../widgets/app_logo.dart';
 import '../widgets/todo_item.dart';
 
@@ -24,16 +28,30 @@ class HomeScreen extends StatelessWidget {
                 child: AppLogo(),
               ),
             ),
-            Expanded(
-              flex: 7,
-              child: Container(
-                padding: EdgeInsets.fromLTRB(24, 24, 24, 0),
-                color: Colors.grey.shade300,
-                child: ListView.builder(
-                  itemCount: 5,
-                  itemBuilder: (context, index) => TodoItem(),
-                ),
-              ),
+            Consumer<HomeViewModel>(
+              builder: (context, model, _) {
+                return Expanded(
+                  flex: 7,
+                  child: model.todos.isEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 32.0),
+                          child: SvgPicture.asset(
+                            'assets/nothing.svg',
+                          ),
+                        )
+                      : Container(
+                          padding: EdgeInsets.fromLTRB(24, 24, 24, 0),
+                          color: Colors.grey.shade300,
+                          child: ListView.builder(
+                            itemCount: model.todos.length,
+                            itemBuilder: (context, index) => TodoItem(
+                              task: model.todos[index].task,
+                              deleteClicked: () => model.removeTodo(index),
+                            ),
+                          ),
+                        ),
+                );
+              },
             ),
           ],
         ),
@@ -47,6 +65,8 @@ class HomeScreen extends StatelessWidget {
   }
 
   void addTodo(BuildContext context) {
+    final newTodoController = TextEditingController();
+
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -62,6 +82,7 @@ class HomeScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
+              controller: newTodoController,
               decoration: InputDecoration(
                 labelText: 'Add Todo',
               ),
@@ -69,7 +90,7 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 48.0),
             RaisedButton(
               color: kPrimaryColor,
-              onPressed: () {},
+              onPressed: () => addNewTodo(context, newTodoController.text),
               child: Text(
                 'Add Task',
                 style: TextStyle(
@@ -86,5 +107,18 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void addNewTodo(BuildContext context, String text) {
+    final homeViewModel = Provider.of<HomeViewModel>(context, listen: false);
+
+    homeViewModel.addTodo(
+      Todo(
+        task: text,
+        timestamp: DateTime.now(),
+      ),
+    );
+
+    Navigator.of(context).pop();
   }
 }
