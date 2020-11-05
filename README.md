@@ -9,5 +9,6 @@ My fourth project at the Side Hustle Internship - A Todo App
 
 ## Mobile Design
 
-![1](https://user-images.githubusercontent.com/50176100/98152255-b6467100-1ed1-11eb-8e91-265c07d62e7f.png)
-![2](https://user-images.githubusercontent.com/50176100/98152259-b7779e00-1ed1-11eb-914d-af55545b0b7b.png)
+![empty](https://user-images.githubusercontent.com/50176100/98264930-bce3ef80-1f88-11eb-9895-d433ccbfe807.png)
+![list](https://user-images.githubusercontent.com/50176100/98264924-bb1a2c00-1f88-11eb-8c82-8e2445f2e02a.png)
+![add](https://user-images.githubusercontent.com/50176100/98264928-bc4b5900-1f88-11eb-8f41-cc6fee660e31.png)
